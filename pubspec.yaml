@@ -1,6 +1,6 @@
 name: perfect_cyrcle
 description: "Draw Perfect Circle - A fun drawing game to test your circle drawing skills"
-homepage: https://github.com/yourusername/perfect_cyrcle
+homepage: https://github.com/orestislef/perfect_cyrcle
 version: 1.0.0+1
 
 environment:
