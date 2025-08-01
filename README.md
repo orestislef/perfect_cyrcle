@@ -1,78 +1,78 @@
-# Perfect Circle - Draw Perfect Circle Game
+# Τέλειος Κύκλος - Παιχνίδι Σχεδίασης Τέλειου Κύκλου
 
-A fun and challenging Flutter game where users try to draw the most perfect circle possible. Test your hand-eye coordination and see how close you can get to drawing a mathematically perfect circle!
+Ένα διασκεδαστικό και προκλητικό παιχνίδι Flutter όπου οι χρήστες προσπαθούν να σχεδιάσουν τον πιο τέλειο κύκλο. Δοκιμάστε τον συντονισμό χεριού-ματιού σας και δείτε πόσο κοντά μπορείτε να φτάσετε στο να σχεδιάσετε έναν μαθηματικά τέλειο κύκλο!
 
-## 🎯 Features
+## 🎯 Χαρακτηριστικά
 
-- **Interactive Drawing**: Touch and drag to draw circles on a responsive canvas
-- **Real-time Scoring**: Get instant feedback on how circular your drawing is (0-100 points)
-- **Grid Toggle**: Optional grid overlay to help with drawing
-- **Score Persistence**: Your best scores and statistics are saved locally
-- **Dark/Light Theme**: Automatic theme switching based on system preferences
-- **Accessibility**: Full accessibility support with semantic labels
-- **Performance Optimized**: Smooth drawing experience with performance optimizations
-- **Haptic Feedback**: Tactile feedback for different interactions and scores
+- **Διαδραστικό Σχέδιο**: Αγγίξτε και σύρετε για να σχεδιάσετε κύκλους σε απαντητικό καμβά
+- **Βαθμολογία σε Πραγματικό Χρόνο**: Λάβετε άμεση ανάδραση για το πόσο κυκλικό είναι το σχέδιό σας (0-100 πόντοι)
+- **Εναλλαγή Πλέγματος**: Προαιρετικό πλέγμα για βοήθεια στο σχέδιο
+- **Διατήρηση Σκορ**: Τα καλύτερα σκορ και οι στατιστικές σας αποθηκεύονται τοπικά
+- **Σκούρο/Ανοιχτό Θέμα**: Αυτόματη εναλλαγή θέματος βάσει προτιμήσεων συστήματος
+- **Προσβασιμότητα**: Πλήρης υποστήριξη προσβασιμότητας με σημασιολογικές ετικέτες
+- **Βελτιστοποιημένη Απόδοση**: Ομαλή εμπειρία σχεδίασης με βελτιστοποιήσεις απόδοσης
+- **Απτική Ανάδραση**: Απτική ανάδραση για διαφορετικές αλληλεπιδράσεις και σκορ
 
-## 🏗️ Architecture
+## 🏗️ Αρχιτεκτονική
 
-The app follows clean architecture principles with clear separation of concerns:
+Η εφαρμογή ακολουθεί τις αρχές καθαρής αρχιτεκτονικής με ξεκάθαρο διαχωρισμό ευθυνών:
 
 ```
 lib/
-├── config/           # App configuration and constants
-├── constants/        # String constants and localization
-├── models/          # Data models
-├── providers/       # State management (Provider pattern)
-├── screens/         # UI screens
-├── services/        # Business logic and external services
-├── themes/          # App theming
-└── widgets/         # Reusable UI components
+├── config/           # Διαμόρφωση εφαρμογής και σταθερές
+├── constants/        # Σταθερές συμβολοσειρών και τοπικοποίηση
+├── models/          # Μοντέλα δεδομένων
+├── providers/       # Διαχείριση κατάστασης (μοτίβο Provider)
+├── screens/         # Οθόνες UI
+├── services/        # Επιχειρησιακή λογική και εξωτερικές υπηρεσίες
+├── themes/          # Θέματα εφαρμογής
+└── widgets/         # Επαναχρησιμοποιήσιμα στοιχεία UI
 ```
 
-## 🛠️ Technical Stack
+## 🛠️ Τεχνικό Stack
 
 - **Framework**: Flutter 3.24.0+
-- **State Management**: Provider
-- **Local Storage**: SharedPreferences
-- **Testing**: Unit, Widget, and Integration tests
-- **Analytics**: Configurable analytics service (ready for Firebase/Mixpanel)
-- **Crash Reporting**: Configurable crash reporting (ready for Crashlytics/Sentry)
+- **Διαχείριση Κατάστασης**: Provider
+- **Τοπική Αποθήκευση**: SharedPreferences
+- **Δοκιμές**: Unit, Widget, και Integration tests
+- **Ανάλυση**: Διαμορφώσιμη υπηρεσία αναλυτικών (έτοιμη για Firebase/Mixpanel)
+- **Αναφορά Σφαλμάτων**: Διαμορφώσιμη αναφορά σφαλμάτων (έτοιμη για Crashlytics/Sentry)
 
-## 🚀 Getting Started
+## 🚀 Ξεκινώντας
 
-### Prerequisites
+### Προαπαιτούμενα
 
-- Flutter SDK 3.24.0 or higher
-- Dart SDK 3.8.1 or higher
+- Flutter SDK 3.24.0 ή νεότερο
+- Dart SDK 3.8.1 ή νεότερο
 
-### Installation
+### Εγκατάσταση
 
-1. Clone the repository:
+1. Κλωνοποίηση του αποθετηρίου:
 ```bash
 git clone https://github.com/orestislef/perfect_cyrcle.git
 cd perfect_cyrcle
 ```
 
-2. Install dependencies:
+2. Εγκατάσταση εξαρτήσεων:
 ```bash
 flutter pub get
 ```
 
-3. Run the app:
+3. Εκτέλεση της εφαρμογής:
 ```bash
 flutter run
 ```
 
-## 🧪 Testing
+## 🧪 Δοκιμές
 
-The app includes comprehensive testing:
+Η εφαρμογή περιλαμβάνει ολοκληρωμένες δοκιμές:
 
-### Run all tests:
+### Εκτέλεση όλων των δοκιμών:
 ```bash
 flutter test
 ```
 
-### Run specific test types:
+### Εκτέλεση συγκεκριμένων τύπων δοκιμών:
 ```bash
 # Unit tests
 flutter test test/unit/
@@ -84,62 +84,62 @@ flutter test test/widget/
 flutter test integration_test/
 ```
 
-### Test Coverage:
+### Κάλυψη Δοκιμών:
 ```bash
 flutter test --coverage
 genhtml coverage/lcov.info -o coverage/html
 ```
 
-## 🎮 How to Play
+## 🎮 Πώς να Παίξετε
 
-1. **Start Drawing**: Touch anywhere on the screen and drag to draw your circle
-2. **Complete the Circle**: Try to end your drawing close to where you started
-3. **Get Your Score**: Release to see your score out of 100 points
-4. **Try Again**: Tap "Try Again" to draw another circle
-5. **Beat Your Best**: Keep trying to achieve the perfect score of 100!
+1. **Ξεκινήστε το Σχέδιο**: Αγγίξτε οπουδήποτε στην οθόνη και σύρετε για να σχεδιάσετε τον κύκλο σας
+2. **Ολοκληρώστε τον Κύκλο**: Προσπαθήστε να τελειώσετε το σχέδιό σας κοντά στο σημείο που ξεκινήσατε
+3. **Πάρτε το Σκορ σας**: Αφήστε για να δείτε το σκορ σας από 100 πόντους
+4. **Δοκιμάστε Ξανά**: Πατήστε "Δοκιμάστε ξανά" για να σχεδιάσετε άλλον κύκλο
+5. **Νικήστε το Καλύτερό σας**: Συνεχίστε να προσπαθείτε για να πετύχετε το τέλειο σκορ των 100!
 
-## 📊 Scoring System
+## 📊 Σύστημα Βαθμολογίας
 
-The scoring algorithm evaluates two main factors:
+Ο αλγόριθμος βαθμολογίας αξιολογεί δύο κύριους παράγοντες:
 
-- **Circularity (60%)**: How consistent the radius is throughout the drawing
-- **Closure (40%)**: How close the end point is to the start point
+- **Κυκλικότητα (60%)**: Πόσο σταθερή είναι η ακτίνα σε όλο το σχέδιο
+- **Κλείσιμο (40%)**: Πόσο κοντά είναι το τελικό σημείο στο αρχικό σημείο
 
-Score ranges:
-- **95-100**: Perfect! 🌟
-- **85-94**: Excellent! 🎯
-- **75-84**: Very Good! 👏
-- **60-74**: Good Attempt! 💪
-- **40-59**: Not Bad! 🖊️
-- **20-39**: Try Again! 🔄
-- **0-19**: Abstract Art! 🎨
+Εύρη βαθμολογίας:
+- **95-100**: Τέλειο! 🌟
+- **85-94**: Εξαιρετικό! 🎯
+- **75-84**: Πολύ Καλό! 👏
+- **60-74**: Καλή Προσπάθεια! 💪
+- **40-59**: Όχι Άσχημα! 🖊️
+- **20-39**: Δοκιμάστε Ξανά! 🔄
+- **0-19**: Αφηρημένη Τέχνη! 🎨
 
-## ⚙️ Configuration
+## ⚙️ Διαμόρφωση
 
-### App Config (`lib/config/app_config.dart`)
+### Διαμόρφωση Εφαρμογής (`lib/config/app_config.dart`)
 
-Key settings you can modify:
-- Minimum points for evaluation
-- Score thresholds
-- Performance limits
-- Analytics/crash reporting toggles
+Βασικές ρυθμίσεις που μπορείτε να τροποποιήσετε:
+- Ελάχιστους πόντους για αξιολόγηση
+- Όρια βαθμολογίας
+- Όρια απόδοσης
+- Εναλλαγές αναλυτικών/αναφοράς σφαλμάτων
 
-### Analytics & Crash Reporting
+### Ανάλυση & Αναφορά Σφαλμάτων
 
-The app is ready for analytics and crash reporting services. To enable:
+Η εφαρμογή είναι έτοιμη για υπηρεσίες αναλυτικών και αναφοράς σφαλμάτων. Για ενεργοποίηση:
 
-1. Uncomment desired services in `pubspec.yaml`
-2. Set `analyticsEnabled` and `crashReportingEnabled` to `true` in `AppConfig`
-3. Implement the actual service calls in the respective service files
+1. Αφαιρέστε τα σχόλια από τις επιθυμητές υπηρεσίες στο `pubspec.yaml`
+2. Ορίστε `analyticsEnabled` και `crashReportingEnabled` σε `true` στο `AppConfig`
+3. Υλοποιήστε τις πραγματικές κλήσεις υπηρεσιών στα αντίστοιχα αρχεία υπηρεσιών
 
-## 🌍 Localization
+## 🌍 Τοπικοποίηση
 
-Currently supports Greek language. The app is structured for easy localization:
+Προς το παρόν υποστηρίζει ελληνική γλώσσα. Η εφαρμογή είναι δομημένη για εύκολη τοπικοποίηση:
 
-- All strings are centralized in `lib/constants/app_strings.dart`
-- Ready for `flutter_localizations` implementation
+- Όλες οι συμβολοσειρές είναι κεντρικοποιημένες στο `lib/constants/app_strings.dart`
+- Έτοιμη για υλοποίηση `flutter_localizations`
 
-## 📱 Platform Support
+## 📱 Υποστήριξη Πλατφόρμας
 
 - ✅ Android
 - ✅ iOS
@@ -148,55 +148,55 @@ Currently supports Greek language. The app is structured for easy localization:
 - ✅ macOS
 - ✅ Linux
 
-## 🔧 Development
+## 🔧 Ανάπτυξη
 
-### Code Style
+### Στυλ Κώδικα
 
-The project follows Flutter/Dart best practices:
-- Uses `very_good_analysis` for strict linting
-- Comprehensive error handling
-- Proper null safety
-- Performance optimizations
+Το έργο ακολουθεί τις βέλτιστες πρακτικές Flutter/Dart:
+- Χρησιμοποιεί `very_good_analysis` για αυστηρό linting
+- Περιεκτική διαχείριση σφαλμάτων
+- Σωστή ασφάλεια null
+- Βελτιστοποιήσεις απόδοσης
 
-### Adding Features
+### Προσθήκη Χαρακτηριστικών
 
-1. Follow the existing architecture patterns
-2. Add appropriate tests
-3. Update documentation
-4. Ensure accessibility compliance
+1. Ακολουθήστε τα υπάρχοντα μοτίβα αρχιτεκτονικής
+2. Προσθέστε κατάλληλες δοκιμές
+3. Ενημερώστε την τεκμηρίωση
+4. Διασφαλίστε συμμόρφωση προσβασιμότητας
 
-## 📈 Performance Considerations
+## 📈 Εκτιμήσεις Απόδοσης
 
-- **Point Limiting**: Drawing paths are limited to prevent performance issues
-- **Efficient Painting**: Custom painter optimizations for smooth rendering
-- **Memory Management**: Proper disposal of resources
-- **Debounced Updates**: Smooth 60fps drawing experience
+- **Περιορισμός Σημείων**: Τα μονοπάτια σχεδίασης περιορίζονται για αποφυγή προβλημάτων απόδοσης
+- **Αποδοτική Ζωγραφική**: Βελτιστοποιήσεις προσαρμοσμένου ζωγράφου για ομαλή απόδοση
+- **Διαχείριση Μνήμης**: Σωστή απόρριψη πόρων
+- **Ενημερώσεις με Καθυστέρηση**: Ομαλή εμπειρία σχεδίασης 60fps
 
-## 🤝 Contributing
+## 🤝 Συνεισφορά
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Κάντε fork το αποθετήριο
+2. Δημιουργήστε ένα branch χαρακτηριστικού (`git checkout -b feature/amazing-feature`)
+3. Κάντε commit τις αλλαγές σας (`git commit -m 'Add amazing feature'`)
+4. Κάντε push στο branch (`git push origin feature/amazing-feature`)
+5. Ανοίξτε ένα Pull Request
 
-## 📄 License
+## 📄 Άδεια Χρήσης
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Αυτό το έργο είναι αδειοδοτημένο υπό την άδεια MIT - δείτε το αρχείο [LICENSE](LICENSE) για λεπτομέρειες.
 
-## 🙏 Acknowledgments
+## 🙏 Ευχαριστίες
 
-- Flutter team for the amazing framework
-- Community contributors and testers
-- Greek language support for cultural inclusivity
+- Ομάδα Flutter για το καταπληκτικό framework
+- Συνεισφέροντες κοινότητας και testers
+- Υποστήριξη ελληνικής γλώσσας για πολιτιστική συμπερίληψη
 
-## 📞 Support
+## 📞 Υποστήριξη
 
-If you encounter any issues or have questions:
-- Open an issue on GitHub
-- Check the documentation
-- Review the test cases for usage examples
+Αν αντιμετωπίσετε προβλήματα ή έχετε ερωτήσεις:
+- Ανοίξτε ένα issue στο GitHub
+- Ελέγξτε την τεκμηρίωση
+- Εξετάστε τις περιπτώσεις δοκιμών για παραδείγματα χρήσης
 
 ---
 
-**Made with ❤️ using Flutter**
+**Φτιαγμένο με ❤️ χρησιμοποιώντας Flutter**

@@ -43,3 +43,22 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Development and IDE files
+.vscode/
+.claude/
+CLAUDE.md
+test/
+*.md.bak
+*.draft
+.tmp/
+coverage/
+.coverage/
+analysis_options.yaml.local
+
+# OS specific files
+Thumbs.db
+Desktop.ini
+.DS_Store?
+ehthumbs.db
+Icon?

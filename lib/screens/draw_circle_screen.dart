@@ -21,6 +21,7 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
   bool isDrawing = false;
   CircleResult? result;
   DateTime? drawStartTime;
+  int? _activePointerId;
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +53,7 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
   Widget _buildLoadingScreen(ThemeData theme) {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      body: const Center(
-        child: CircularProgressIndicator(),
-      ),
+      body: const Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -74,23 +73,63 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
     return const SizedBox.shrink();
   }
 
-  Widget _buildDrawingArea(ThemeData theme, bool isDark, GameStateProvider gameState) {
+  Widget _buildDrawingArea(
+    ThemeData theme,
+    bool isDark,
+    GameStateProvider gameState,
+  ) {
     return Semantics(
       label: AppStrings.drawingArea,
       child: GestureDetector(
-        onPanStart: _startDrawing,
-        onPanUpdate: _updateDrawing,
-        onPanEnd: (details) => _endDrawing(details, gameState),
-        child: CustomPaint(
-          size: Size.infinite,
-          painter: CirclePainter(
-            points: points,
-            showGrid: gameState.showGrid,
-            result: result,
-            bestScore: gameState.bestScore,
-            attempts: gameState.attempts,
-            isDark: isDark,
-            theme: theme,
+        onPanStart: (DragStartDetails details) {
+          // Only allow starting if no other finger is already drawing
+          if (!isDrawing || _activePointerId == null) {
+            _startDrawing(details);
+          }
+        },
+        onPanUpdate: (DragUpdateDetails details) {
+          // Only update if we're currently drawing
+          if (isDrawing) {
+            _updateDrawing(details);
+          }
+        },
+        onPanEnd: (DragEndDetails details) {
+          // Only end if we're currently drawing
+          if (isDrawing) {
+            _endDrawing(details, gameState);
+          }
+        },
+        child: Listener(
+          onPointerDown: (PointerDownEvent event) {
+            // Track active pointer and reject additional pointers
+            if (_activePointerId == null) {
+              _activePointerId = event.pointer;
+            } else if (_activePointerId != event.pointer) {
+              // Ignore additional fingers
+              return;
+            }
+          },
+          onPointerUp: (PointerUpEvent event) {
+            if (_activePointerId == event.pointer) {
+              _activePointerId = null;
+            }
+          },
+          onPointerCancel: (PointerCancelEvent event) {
+            if (_activePointerId == event.pointer) {
+              _activePointerId = null;
+            }
+          },
+          child: CustomPaint(
+            size: Size.infinite,
+            painter: CirclePainter(
+              points: points,
+              showGrid: gameState.showGrid,
+              result: result,
+              bestScore: gameState.bestScore,
+              attempts: gameState.attempts,
+              isDark: isDark,
+              theme: theme,
+            ),
           ),
         ),
       ),
@@ -126,57 +165,58 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
       child: AnimatedOpacity(
         opacity: shouldHide ? 0.0 : 1.0,
         duration: const Duration(milliseconds: 300),
-        child: shouldHide 
-          ? const SizedBox.shrink() 
-          : Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: theme.cardColor.withValues(alpha: 0.95),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: theme.dividerColor,
-                  width: 1,
+        child: shouldHide
+            ? const SizedBox.shrink()
+            : Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: theme.cardColor.withValues(alpha: 0.95),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: theme.dividerColor, width: 1),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.08),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.08),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
+                child: Column(
+                  children: [
+                    Text(
+                      AppStrings.drawPerfectCircle,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: theme.textTheme.headlineLarge?.color,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      AppStrings.touchAndDrag,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: theme.textTheme.bodyLarge?.color?.withValues(
+                          alpha: .8,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${AppStrings.bestScore}: ${gameState.bestScore} | ${AppStrings.attempts}: ${gameState.attempts}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: theme.textTheme.bodyMedium?.color?.withValues(
+                          alpha: .6,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              child: Column(
-                children: [
-                  Text(
-                    AppStrings.drawPerfectCircle,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: theme.textTheme.headlineLarge?.color,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    AppStrings.touchAndDrag,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: theme.textTheme.bodyLarge?.color?.withValues(alpha: .8),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '${AppStrings.bestScore}: ${gameState.bestScore} | ${AppStrings.attempts}: ${gameState.attempts}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: theme.textTheme.bodyMedium?.color?.withValues(alpha: .6),
-                    ),
-                  ),
-                ],
-              ),
-            ),
       ),
     );
   }
@@ -191,12 +231,14 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
         label: AppStrings.tryAgainButton,
         child: FloatingActionButton.extended(
           onPressed: _clearCanvas,
-          backgroundColor: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.8),
+          backgroundColor: (isDark ? Colors.white : Colors.black).withValues(
+            alpha: 0.8,
+          ),
           foregroundColor: isDark ? Colors.black : Colors.white,
           elevation: 4,
           icon: const Icon(Icons.refresh, size: 20),
           label: const Text(
-            AppStrings.tryAgain, 
+            AppStrings.tryAgain,
             style: TextStyle(fontSize: 14),
           ),
         ),
@@ -208,7 +250,9 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
     final isDark = theme.brightness == Brightness.dark;
 
     return Semantics(
-      label: text == AppStrings.clear ? AppStrings.clearButton : AppStrings.gridToggleButton,
+      label: text == AppStrings.clear
+          ? AppStrings.clearButton
+          : AppStrings.gridToggleButton,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
@@ -225,7 +269,10 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
             ),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          minimumSize: const Size(AppConfig.minTouchTargetSize, AppConfig.minTouchTargetSize),
+          minimumSize: const Size(
+            AppConfig.minTouchTargetSize,
+            AppConfig.minTouchTargetSize,
+          ),
         ),
         child: Text(text),
       ),
@@ -236,7 +283,7 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
     // Allow starting new drawing even if there's a previous result
     HapticFeedback.lightImpact();
     drawStartTime = DateTime.now();
-    
+
     setState(() {
       isDrawing = true;
       points = [details.localPosition];
@@ -245,11 +292,12 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
   }
 
   void _updateDrawing(DragUpdateDetails details) {
-    if (!isDrawing) return; // Only check if currently drawing, allow drawing over results
-    
+    if (!isDrawing)
+      return; // Only check if currently drawing, allow drawing over results
+
     setState(() {
       points.add(details.localPosition);
-      
+
       // Performance optimization: limit points to prevent lag
       if (points.length > AppConfig.maxPointsInPath) {
         points = points.sublist(points.length - AppConfig.maxPointsInPath);
@@ -259,22 +307,22 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
 
   void _endDrawing(DragEndDetails details, GameStateProvider gameState) {
     if (!isDrawing) return; // Only check if currently drawing
-    
+
     final drawEndTime = DateTime.now();
     final drawDuration = drawEndTime.difference(drawStartTime!).inSeconds;
-    
+
     setState(() {
       isDrawing = false;
       result = CircleEvaluator.evaluateCircle(points);
     });
-    
+
     // Update game state
     gameState.updateScore(result!);
     gameState.addPlayTime(drawDuration);
-    
+
     // Log analytics
     AnalyticsService.instance.logCircleDrawn(result!, drawDuration);
-    
+
     // Haptic feedback based on score
     if (result!.score >= AppConfig.excellentScoreThreshold) {
       HapticFeedback.mediumImpact();
