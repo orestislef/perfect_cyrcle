@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import '../models/circle_result.dart';
 import '../services/circle_evaluator.dart';
@@ -21,7 +22,6 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
   bool isDrawing = false;
   CircleResult? result;
   DateTime? drawStartTime;
-  int? _activePointerId;
 
   @override
   Widget build(BuildContext context) {
@@ -80,56 +80,29 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
   ) {
     return Semantics(
       label: AppStrings.drawingArea,
-      child: GestureDetector(
-        onPanStart: (DragStartDetails details) {
-          // Only allow starting if no other finger is already drawing
-          if (!isDrawing || _activePointerId == null) {
-            _startDrawing(details);
-          }
+      child: RawGestureDetector(
+        gestures: {
+          SingleFingerPanGestureRecognizer: GestureRecognizerFactoryWithHandlers<
+              SingleFingerPanGestureRecognizer>(
+            () => SingleFingerPanGestureRecognizer(),
+            (SingleFingerPanGestureRecognizer instance) {
+              instance
+                ..onStart = _startDrawing
+                ..onUpdate = _updateDrawing
+                ..onEnd = (details) => _endDrawing(details, gameState);
+            },
+          ),
         },
-        onPanUpdate: (DragUpdateDetails details) {
-          // Only update if we're currently drawing
-          if (isDrawing) {
-            _updateDrawing(details);
-          }
-        },
-        onPanEnd: (DragEndDetails details) {
-          // Only end if we're currently drawing
-          if (isDrawing) {
-            _endDrawing(details, gameState);
-          }
-        },
-        child: Listener(
-          onPointerDown: (PointerDownEvent event) {
-            // Track active pointer and reject additional pointers
-            if (_activePointerId == null) {
-              _activePointerId = event.pointer;
-            } else if (_activePointerId != event.pointer) {
-              // Ignore additional fingers
-              return;
-            }
-          },
-          onPointerUp: (PointerUpEvent event) {
-            if (_activePointerId == event.pointer) {
-              _activePointerId = null;
-            }
-          },
-          onPointerCancel: (PointerCancelEvent event) {
-            if (_activePointerId == event.pointer) {
-              _activePointerId = null;
-            }
-          },
-          child: CustomPaint(
-            size: Size.infinite,
-            painter: CirclePainter(
-              points: points,
-              showGrid: gameState.showGrid,
-              result: result,
-              bestScore: gameState.bestScore,
-              attempts: gameState.attempts,
-              isDark: isDark,
-              theme: theme,
-            ),
+        child: CustomPaint(
+          size: Size.infinite,
+          painter: CirclePainter(
+            points: points,
+            showGrid: gameState.showGrid,
+            result: result,
+            bestScore: gameState.bestScore,
+            attempts: gameState.attempts,
+            isDark: isDark,
+            theme: theme,
           ),
         ),
       ),
@@ -337,5 +310,42 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
       points = [];
       result = null;
     });
+  }
+}
+
+/// Custom gesture recognizer that only accepts single-finger pan gestures
+/// and completely ignores multi-touch input during active drawing sessions
+class SingleFingerPanGestureRecognizer extends PanGestureRecognizer {
+  int? _primaryPointer;
+  
+  @override
+  void addAllowedPointer(PointerDownEvent event) {
+    // Only accept the first pointer that comes down
+    if (_primaryPointer == null) {
+      _primaryPointer = event.pointer;
+      super.addAllowedPointer(event);
+    }
+    // Completely ignore any additional pointers
+  }
+  
+  @override
+  void handleEvent(PointerEvent event) {
+    // Only handle events from the primary pointer
+    if (event.pointer == _primaryPointer) {
+      super.handleEvent(event);
+    }
+    
+    // Clean up when the primary pointer is released
+    if (event is PointerUpEvent && event.pointer == _primaryPointer) {
+      _primaryPointer = null;
+    } else if (event is PointerCancelEvent && event.pointer == _primaryPointer) {
+      _primaryPointer = null;
+    }
+  }
+  
+  @override
+  void dispose() {
+    _primaryPointer = null;
+    super.dispose();
   }
 }
