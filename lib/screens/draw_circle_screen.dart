@@ -82,16 +82,17 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
       label: AppStrings.drawingArea,
       child: RawGestureDetector(
         gestures: {
-          SingleFingerPanGestureRecognizer: GestureRecognizerFactoryWithHandlers<
-              SingleFingerPanGestureRecognizer>(
-            () => SingleFingerPanGestureRecognizer(),
-            (SingleFingerPanGestureRecognizer instance) {
-              instance
-                ..onStart = _startDrawing
-                ..onUpdate = _updateDrawing
-                ..onEnd = (details) => _endDrawing(details, gameState);
-            },
-          ),
+          SingleFingerPanGestureRecognizer:
+              GestureRecognizerFactoryWithHandlers<
+                SingleFingerPanGestureRecognizer
+              >(() => SingleFingerPanGestureRecognizer(), (
+                SingleFingerPanGestureRecognizer instance,
+              ) {
+                instance
+                  ..onStart = _startDrawing
+                  ..onUpdate = _updateDrawing
+                  ..onEnd = (details) => _endDrawing(details, gameState);
+              }),
         },
         child: CustomPaint(
           size: Size.infinite,
@@ -265,8 +266,9 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
   }
 
   void _updateDrawing(DragUpdateDetails details) {
-    if (!isDrawing)
+    if (!isDrawing) {
       return; // Only check if currently drawing, allow drawing over results
+    }
 
     setState(() {
       points.add(details.localPosition);
@@ -317,7 +319,7 @@ class _DrawCircleScreenState extends State<DrawCircleScreen> {
 /// and completely ignores multi-touch input during active drawing sessions
 class SingleFingerPanGestureRecognizer extends PanGestureRecognizer {
   int? _primaryPointer;
-  
+
   @override
   void addAllowedPointer(PointerDownEvent event) {
     // Only accept the first pointer that comes down
@@ -327,22 +329,23 @@ class SingleFingerPanGestureRecognizer extends PanGestureRecognizer {
     }
     // Completely ignore any additional pointers
   }
-  
+
   @override
   void handleEvent(PointerEvent event) {
     // Only handle events from the primary pointer
     if (event.pointer == _primaryPointer) {
       super.handleEvent(event);
     }
-    
+
     // Clean up when the primary pointer is released
     if (event is PointerUpEvent && event.pointer == _primaryPointer) {
       _primaryPointer = null;
-    } else if (event is PointerCancelEvent && event.pointer == _primaryPointer) {
+    } else if (event is PointerCancelEvent &&
+        event.pointer == _primaryPointer) {
       _primaryPointer = null;
     }
   }
-  
+
   @override
   void dispose() {
     _primaryPointer = null;
