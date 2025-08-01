@@ -27,8 +27,39 @@ dev_dependencies:
   very_good_analysis: ^9.0.0
   mockito: ^5.5.0
   build_runner: ^2.6.0
+  flutter_launcher_icons: ^0.15.1
+  flutter_native_splash: ^2.4.1
 
 flutter:
   uses-material-design: true
   assets:
     - assets/images/
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/images/logo.png"
+    background_color: "#fef9ee"
+    theme_color: "#fef9ee"
+  windows:
+    generate: true
+    image_path: "assets/images/logo.png"
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: "assets/images/logo.png"
+
+flutter_native_splash:
+  color: "#fef9ee"
+  image: assets/images/logo.png
+  branding_mode: bottom
+  color_dark: "#fef9ee"
+  image_dark: assets/images/logo.png
+  android_12:
+    image: assets/images/logo.png
+    color: "#fef9ee"
+  web_image_mode: center
